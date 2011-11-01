@@ -713,22 +713,31 @@ fi
 # Launch Services
 # ===============
 
-# nova api crashes if we start it with a regular screen command,
-# so send the start command by forcing text into the window.
-# Only run the services specified in ``ENABLED_SERVICES``
 
 # our screen helper to launch a service in a hidden named screen
 function screen_it {
     NL=`echo -ne '\015'`
+    # Only run the services specified in ``ENABLED_SERVICES``
     if [[ "$ENABLED_SERVICES" =~ "$1" ]]; then
-        screen -S nova -X screen -t $1
-        screen -S nova -p $1 -X stuff "$2$NL"
+        if [[ "$USE_TMUX" =~ "yes" ]]; then
+            tmux new-window -t stack -a -n "$1" "bash"
+            tmux send-keys "$2$NL"
+        else
+            # nova api crashes if we start it with a regular screen command,
+            # so send the start command by forcing text into the window.
+            screen -S nova -X screen -t $1
+            screen -S nova -p $1 -X stuff "$2$NL"
+        fi
     fi
 }
 
 # create a new named screen to run processes in
-screen -d -m -S nova -t nova
-sleep 1
+if [[ "$USE_TMUX" =~ "yes" ]]; then
+    tmux new-session -d -s stack
+else
+    screen -d -m -S nova -t nova
+    sleep 1
+fi
 
 # launch the glance registery service
 if [[ "$ENABLED_SERVICES" =~ "g-reg" ]]; then
