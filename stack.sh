@@ -721,7 +721,7 @@ function screen_it {
     if [[ "$ENABLED_SERVICES" =~ "$1" ]]; then
         if [[ "$USE_TMUX" =~ "yes" ]]; then
             tmux new-window -t stack -a -n "$1" "bash"
-            tmux send-keys "$2$NL"
+            tmux send-keys "$2" C-M
         else
             # nova api crashes if we start it with a regular screen command,
             # so send the start command by forcing text into the window.
