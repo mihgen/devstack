@@ -153,6 +153,7 @@ NOVNC_DIR=$DEST/noVNC
 SWIFT_DIR=$DEST/swift
 SWIFT_KEYSTONE_DIR=$DEST/swift-keystone2
 QUANTUM_DIR=$DEST/quantum
+CITEST_DIR=$DEST/openstack-integration-tests
 
 # Default Quantum Plugin
 Q_PLUGIN=${Q_PLUGIN:-openvswitch}
@@ -421,6 +422,8 @@ git_clone $NOVACLIENT_REPO $NOVACLIENT_DIR $NOVACLIENT_BRANCH
 git_clone $OPENSTACKX_REPO $OPENSTACKX_DIR $OPENSTACKX_BRANCH
 # quantum
 git_clone $QUANTUM_REPO $QUANTUM_DIR $QUANTUM_BRANCH
+# CI test suite
+git_clone $CITEST_REPO $CITEST_DIR $CITEST_BRANCH
 
 # Initialization
 # ==============
