@@ -26,6 +26,12 @@ If working correctly, you should be able to access openstack endpoints, like:
 
 You will need to configure a bridge and network on your host machine (by default br0) before starting build_lxc.sh.  A sample host-only network configuration can be found in lxc_network_hostonlyplusnat.sh.
 
+# To start a dev cloud on EC2
+I used cloudsidekick-cato-v1.0.3-x86_64-ubuntu-oneiric (ami-cf458ba6) image.
+It is required to reset mysql password on this image:
+    ./mysql_reset.sh
+- this command will reset mysql root password to 'nova'.
+
 # Customizing
 
 You can tweak environment variables by creating file name 'localrc' should you need to override defaults.  It is likely that you will need to do this to tweak your networking configuration should you need to access your cloud from a different host.
